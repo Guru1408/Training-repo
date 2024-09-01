@@ -2,12 +2,7 @@ package com.seleniumtest;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class Advlocators {
 
@@ -19,60 +14,28 @@ public class Advlocators {
         );
         WebDriver driver = new ChromeDriver();
 
-        try {
-            // Navigate to UnitedHealthcare sign-in page
-            driver.get("https://www.uhc.com/sign-in");
+        // Open the Udemy login page
+        driver.get("https://www.udemy.com/join/login-popup/?locale=en_US&response_type=html&next=https%3A%2F%2Fwww.udemy.com%2F");
 
-            // Explicit wait
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        // Using child axis to select the email input field
+        driver.findElement(By.xpath("//div[@class='ud-main-content']/child::input[1]")).sendKeys("charang1810@gmail.com");
 
-            // Click on "Member sign in" button
-            WebElement signInButton = wait.until(
-                ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class, 'signin-button')]"))
-            );
-            signInButton.click();
+        // Using following-sibling to enter the password
+        driver.findElement(By.xpath("//input[@id='email--1']/following-sibling::input")).sendKeys("Charan@1810");
 
-            // Enter username (removed wait condition for simplicity)
-            WebElement usernameField = driver.findElement(By.xpath("//input[@name='userLoginId']"));
-            usernameField.sendKeys("exampleuser@email.com");
+        // Using preceding-sibling to check the 'Remember Me' checkbox
+        driver.findElement(By.xpath("//input[@type='checkbox']/preceding-sibling::label")).click();
 
-            // Enter password (removed wait condition for simplicity)
-            WebElement passwordField = driver.findElement(By.xpath("//input[@name='password']"));
-            passwordField.sendKeys("examplepassword");
+        // Using preceding to interact with elements before a certain label
+        driver.findElement(By.xpath("//label[text()='Password']/preceding::input[1]")).sendKeys("Charan@1234");
 
-            // Click on "Sign In" button
-            WebElement signInSubmitButton = driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Sign In')]"));
-            signInSubmitButton.click();
+        // Using following to enter a value in the password field
+        driver.findElement(By.xpath("//label[text()='Password']/following::input[1]")).sendKeys("mypassword123");
 
-            // Click on "Forgot username?" link
-            WebElement forgotUsernameLink = driver.findElement(By.xpath("//a[contains(text(), 'Forgot username?')]"));
-            forgotUsernameLink.click();
+        // Using descendant to click the login button within a container
+        driver.findElement(By.xpath("//div[@class='ud-main-content']/descendant::button[2]")).click();
 
-            driver.navigate().back();
-
-            // Click on "Forgot password?" link
-            WebElement forgotPasswordLink = driver.findElement(By.xpath("//a[contains(text(), 'Forgot password?')]"));
-            forgotPasswordLink.click();
-
-            driver.navigate().to("https://www.uhc.com/sign-in");
-
-            // Click on "Register now" button
-            WebElement registerNowButton = driver.findElement(By.xpath("//a[contains(@class, 'register-button') and contains(text(), 'Register now')]"));
-            registerNowButton.click();
-
-            // Click on "Find your plan to get started" button
-            WebElement findPlanButton = driver.findElement(By.xpath("//button[contains(text(), 'Find your plan to get started')]"));
-            findPlanButton.click();
-
-            // Click on "Employer" option
-            WebElement employerButton = driver.findElement(By.xpath("//button[contains(text(), 'Employer')]"));
-            employerButton.click();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // Close the browser
-            driver.quit();
-        }
+        // Close the driver
+        driver.quit();
     }
 }
